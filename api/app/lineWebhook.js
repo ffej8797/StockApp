@@ -2,22 +2,22 @@ import axios from "axios";
 
 export default async function lineWebhook(req, res) {
 
-    const body = req.body;
-
-    const event = body.events[0];
-    const replyToken = event.replyToken;
-    const userMessage = event.message.text;
-
     try {
+        const event = req.body.events[0];
+
+        const replyToken = event.replyToken;
+        const userMessage = event.message.text;
+
+        console.log("user message:", userMessage);
 
         await axios.post(
             "https://api.line.me/v2/bot/message/reply",
             {
-                replyToken,
+                replyToken: replyToken,
                 messages: [
                     {
                         type: "text",
-                        text: `你輸入的是 ${userMessage}`
+                        text: `你輸入的是：${userMessage}`
                     }
                 ]
             },
@@ -33,10 +33,11 @@ export default async function lineWebhook(req, res) {
 
         res.status(200).send("ok");
 
+
     } catch (error) {
 
         console.log(
-            "LINE reply error:",
+            "LINE ERROR:",
             error.response?.data || error.message
         );
 
