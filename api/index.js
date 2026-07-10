@@ -1,5 +1,5 @@
 import express from 'express';
-import lineWebhook from './app/lineWebhook';
+import lineWebhook from './app/lineWebhook.js';
 
 const app = express();
 
