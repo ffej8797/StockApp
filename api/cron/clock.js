@@ -1,5 +1,5 @@
 import axios from "axios";
-import { formatTimestemp } from "../utils";
+import { formatTimestemp } from "../utils/index.js";
 
 export default async function clock(req, res) {
     const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"
