@@ -2,6 +2,7 @@ import express from 'express';
 import lineWebhook from './app/lineWebhook.js';
 
 const app = express();
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
