@@ -4,7 +4,6 @@ import { User } from "../../database/index.js";
 export default async function lineWebhook(req, res) {
     const event = req.body.events[0]
     const userId = event.source.userId;
-    console.log("req.body", req.body)
 
     switch (event.type) {
         case "follow":
