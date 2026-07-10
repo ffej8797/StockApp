@@ -1,0 +1,16 @@
+name: Stock Cron
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call API
+        run: |
+          curl \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://stock-app-two-kappa.vercel.app/clock
