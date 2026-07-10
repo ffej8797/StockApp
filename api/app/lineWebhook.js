@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default async function lineWebhook(req, res) {
+    const event = req.body.events[0]
     switch (event.type) {
 
         case "follow":
@@ -9,8 +10,6 @@ export default async function lineWebhook(req, res) {
 
         case "message":
             try {
-                const event = req.body.events[0];
-
                 const replyToken = event.replyToken;
                 const userMessage = event.message.text;
 
