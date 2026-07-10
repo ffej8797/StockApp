@@ -8,12 +8,24 @@ export default async function lineWebhook(req, res) {
 
     switch (event.type) {
         case "follow":
+            const UserResult = await User.findOne({ userId: userId })
+            if (Boolean(UserResult)) {
+                await User.updateOne(
+                    { userId: userId },
+                    {
+                        $set: {
+                            delete: false
+                        }
+                    }
+                )
+            } else {
+                await User.insertOne({
+                    userId: userId,
+                    joinTimestamp: event.timestamp,
+                    delete: false
+                })
+            }
 
-            // await User.insertOne({
-            //     userId: userId,
-            //     joinTimestamp: event.timestamp,
-            //     delete: false
-            // })
             res.send("有新人加入！")
             break;
 
