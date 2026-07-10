@@ -4,13 +4,13 @@ on:
   schedule:
     - cron: "*/10 * * * *"
 
-  workflow_dispatch:
-
 jobs:
   cron:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger cron API
+      - name: Call API
         run: |
-          curl -X GET https://stock-app-two-kappa.vercel.app/clock
+          curl \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://stock-app-two-kappa.vercel.app/clock

@@ -2,6 +2,14 @@ import axios from "axios";
 import { formatTimestemp } from "../utils/index.js";
 
 export default async function clock(req, res) {
+    const auth = req.headers.authorization;
+    if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+        return res.status(401).json({
+            success: false,
+            message: "Unauthorized",
+        });
+    }
+
     const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"
     const text = `現在時間：${formatTimestemp(Date.now())}`
 
