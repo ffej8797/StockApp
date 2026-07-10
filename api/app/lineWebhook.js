@@ -3,16 +3,17 @@ import { User } from "../../database/index.js";
 
 export default async function lineWebhook(req, res) {
     const event = req.body.events[0]
+    const userId = event.source.userId;
+    console.log("req.body", req.body)
 
     switch (event.type) {
         case "follow":
-            console.log("req.body", req.body)
-            const userId = event.source.userId;
-            await User.insertOne({
-                userId: userId,
-                joinTimestamp: event.timestamp,
-                delete: false
-            })
+
+            // await User.insertOne({
+            //     userId: userId,
+            //     joinTimestamp: event.timestamp,
+            //     delete: false
+            // })
             res.send("有新人加入！")
             break;
 
