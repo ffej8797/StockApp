@@ -3,7 +3,7 @@ import { formatTimestemp } from "../utils/index.js";
 
 export default async function clock(req, res) {
     const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"
-    const text = `現在時間：${formatTimestemp}`
+    const text = `現在時間：${formatTimestemp(Date.now())}`
 
     await axios.post(
         "https://api.line.me/v2/bot/message/push",
