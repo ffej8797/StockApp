@@ -1,11 +1,19 @@
 import axios from "axios";
+import { User } from "../../database/index.js";
 
 export default async function lineWebhook(req, res) {
     const event = req.body.events[0]
-    switch (event.type) {
 
+    switch (event.type) {
         case "follow":
             console.log("req.body", req.body)
+            const userId = event.source.userId;
+            await User.insertOne({
+                userId: userId,
+                joinTimestamp: event.timestamp,
+                delete: false
+            })
+            res.send("有新人加入！")
             break;
 
         case "message":
@@ -51,7 +59,15 @@ export default async function lineWebhook(req, res) {
 
 
         case "unfollow":
-            console.log("req.body", req.body)
+            await User.updateOne(
+                { userId: userId },
+                {
+                    $set: {
+                        delete: true
+                    }
+                }
+            )
+            res.send("有人封鎖！")
             break;
 
     }
