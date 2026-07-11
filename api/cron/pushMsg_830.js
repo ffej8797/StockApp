@@ -1,7 +1,7 @@
 import axios from "axios";
-import { formatTimestemp, formatTimestampDate } from "../utils/index.js";
-import { stockData_Top20Volume, stockData_Top20ForeignHolding } from "../fetchStockData/index.js";
+import { formatTimestampDate } from "../utils/index.js";
 import stockData from "../fetchStockData/index.js";
+import { stockData_DB } from "../fetchStockData/index.js";
 
 export default async function pushMsg_830(req, res) {
     const auth = req.headers.authorization;
@@ -14,7 +14,7 @@ export default async function pushMsg_830(req, res) {
 
     /** 抓股票資料 */
     // const DATE = formatTimestampDate(Date.now())
-    const finalData = await stockData("20260708")
+    const finalData = await stockData_DB("20260708") // 之後改成資料庫撈資料
     console.log("finalData", finalData)
 
     const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"

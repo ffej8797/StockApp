@@ -1,6 +1,7 @@
 import axios from "axios";
 import FIELDS_MAP from "../../fieldsMap.json" with { type: "json" };
 import { priceDeleteComma, formatTimestampDate } from "../utils/index.js";
+import { StockData } from "../../database/index.js";
 
 const STOCK_URL = process.env.STOCK_URL;
 
@@ -80,4 +81,9 @@ export default async function stockData(date) {
         top20ForeignHolding: Top20ForeignHolding
     }
     return finalData
+}
+
+export async function stockData_DB(date) {
+    const data = await StockData.findOne({ date: date })
+    return data
 }
