@@ -2,6 +2,7 @@ import axios from "axios";
 import { formatTimestampDate } from "../utils/index.js";
 import stockData from "../fetchStockData/index.js";
 import { stockData_DB } from "../fetchStockData/index.js";
+import { DIVIDER_LINE } from "../utils/line.js";
 
 export default async function pushMsg_830(req, res) {
     const auth = req.headers.authorization;
@@ -13,8 +14,8 @@ export default async function pushMsg_830(req, res) {
     }
 
     /** 抓股票資料 */
-    // const DATE = formatTimestampDate(Date.now())
-    const finalData = await stockData_DB("20260708") // 之後改成資料庫撈資料
+    // const DATE = formatTimestampDate(Date.now()) // 日期之後要改為「前一天」
+    const finalData = await stockData_DB("20260708")
     console.log("finalData", finalData)
 
     const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"
@@ -25,23 +26,23 @@ export default async function pushMsg_830(req, res) {
     `📊 ${finalData.date} 市場排行
 
 🔥 成交量 TOP 5
-
+${DIVIDER_LINE}
 1. ${volumeTop20[0].stockName}(${volumeTop20[0].stockId})
-   成交量：${Number(volumeTop20[0].tradingVolume).toLocaleString()}
-   收盤：${volumeTop20[0].closePrice} ${volumeTop20[0].changeDirection}
+成交量：${Number(volumeTop20[0].tradingVolume).toLocaleString()}
+收盤：${volumeTop20[0].closePrice} ${volumeTop20[0].changeDirection.includes("green") ? "📈" : "📉"}
 
 2. ${volumeTop20[1].stockName}(${volumeTop20[1].stockId})
-   成交量：${Number(volumeTop20[1].tradingVolume).toLocaleString()}
-   收盤：${volumeTop20[1].closePrice} ${volumeTop20[1].changeDirection}
+成交量：${Number(volumeTop20[1].tradingVolume).toLocaleString()}
+收盤：${volumeTop20[1].closePrice} ${volumeTop20[1].changeDirection.includes("green") ? "📈" : "📉"}
 
 
 🌍 外資持股 TOP 5
-
+${DIVIDER_LINE}
 1. ${top20ForeignHolding[0].stockName}(${top20ForeignHolding[0].stockId})
-   外資持股：${top20ForeignHolding[0].foreignHoldingRatio}%
+外資持股：${top20ForeignHolding[0].foreignHoldingRatio}%
 
 2. ${top20ForeignHolding[1].stockName}(${top20ForeignHolding[1].stockId})
-   外資持股：${top20ForeignHolding[1].foreignHoldingRatio}%
+外資持股：${top20ForeignHolding[1].foreignHoldingRatio}%
 `;
 
     const data = {
