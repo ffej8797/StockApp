@@ -4,6 +4,8 @@ import stockData from "../fetchStockData/index.js";
 import { stockData_DB } from "../fetchStockData/index.js";
 import { DIVIDER_LINE } from "../utils/line.js";
 
+import { volumeTop20Message, top20ForeignHoldingMessage } from "../message/index.js";
+
 export default async function pushMsg_830(req, res) {
     const auth = req.headers.authorization;
     if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -15,6 +17,8 @@ export default async function pushMsg_830(req, res) {
 
     /** 抓股票資料 */
     // const DATE = formatTimestampDate(Date.now()) // 日期之後要改為「前一天」
+    // const finalData = await stockData_DB(DATE)
+
     const finalData = await stockData_DB("20260708")
     console.log("finalData", finalData)
 
@@ -22,27 +26,22 @@ export default async function pushMsg_830(req, res) {
 
     const volumeTop20 = finalData.top20Volume
     const top20ForeignHolding = finalData.top20ForeignHolding
-    const message = 
-    `📊 ${finalData.date} 市場排行
+
+    /** 訊息生成 */
+    const volumeTopMessage = volumeTop20Message(volumeTop20) // 成交量排行
+    const foreignHoldingMessage = top20ForeignHoldingMessage(top20ForeignHolding) // 外資持股比例排行
+
+    const message =
+        `📊 ${finalData.date} 市場排行
 
 🔥 成交量 TOP 5
 ${DIVIDER_LINE}
-1. ${volumeTop20[0].stockName}(${volumeTop20[0].stockId})
-成交量：${Number(volumeTop20[0].tradingVolume).toLocaleString()}
-收盤：${volumeTop20[0].closePrice} ${volumeTop20[0].changeDirection.includes("green") ? "📈" : "📉"}
-
-2. ${volumeTop20[1].stockName}(${volumeTop20[1].stockId})
-成交量：${Number(volumeTop20[1].tradingVolume).toLocaleString()}
-收盤：${volumeTop20[1].closePrice} ${volumeTop20[1].changeDirection.includes("green") ? "📈" : "📉"}
+${volumeTopMessage}
 
 
 🌍 外資持股 TOP 5
 ${DIVIDER_LINE}
-1. ${top20ForeignHolding[0].stockName}(${top20ForeignHolding[0].stockId})
-外資持股：${top20ForeignHolding[0].foreignHoldingRatio}%
-
-2. ${top20ForeignHolding[1].stockName}(${top20ForeignHolding[1].stockId})
-外資持股：${top20ForeignHolding[1].foreignHoldingRatio}%
+${foreignHoldingMessage}
 `;
 
     const data = {
