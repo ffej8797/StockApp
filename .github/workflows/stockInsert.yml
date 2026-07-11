@@ -1,9 +1,9 @@
-name: Stock Cron
+name: Stock Insert Cron
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
-
+    - cron: "0 18 * * *"
+  workflow_dispatch:
 jobs:
   cron:
     runs-on: ubuntu-latest
@@ -13,4 +13,4 @@ jobs:
         run: |
           curl \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            https://stock-app-two-kappa.vercel.app/clock
+            https://stock-app-two-kappa.vercel.app/stockDataWrite
