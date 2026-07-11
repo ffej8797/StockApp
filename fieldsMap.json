@@ -14,7 +14,7 @@
         "最後揭示買價": "lastBidPrice",
         "最後揭示賣價": "lastAskPrice"
     },
-    "Top20ForeignHolding": {
+    "top20ForeignHolding": {
         "排行": "rank",
         "證券代號": "stockId",
         "證券名稱": "stockName",

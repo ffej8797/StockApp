@@ -50,7 +50,7 @@ export async function stockData_Top20ForeignHolding(date) {
             }
         }
     );
-    const englishFields = result.data.fields.map(field => FIELDS_MAP['Top20ForeignHolding'][field]);
+    const englishFields = result.data.fields.map(field => FIELDS_MAP['top20ForeignHolding'][field]);
     var Top20ForeignHoldingFormatData = []
 
     for (const stockData_arr of result.data.data) {
