@@ -18,8 +18,29 @@ export default async function pushMsg_830(req, res) {
     console.log("finalData", finalData)
 
     const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"
-    const text = `現在時間：${formatTimestemp(Date.now())}`
 
+    const message = `
+📊 ${finalData.date} 市場排行
+
+🔥 成交量 TOP 5
+
+1. ${volumeTop5[0].stockName}(${volumeTop5[0].stockId})
+   成交量：${Number(volumeTop5[0].tradingVolume).toLocaleString()}
+   收盤：${volumeTop5[0].closePrice} ${volumeTop5[0].changeDirection}
+
+2. ${volumeTop5[1].stockName}(${volumeTop5[1].stockId})
+   成交量：${Number(volumeTop5[1].tradingVolume).toLocaleString()}
+   收盤：${volumeTop5[1].closePrice} ${volumeTop5[1].changeDirection}
+
+
+🌍 外資持股 TOP 5
+
+1. ${foreignTop5[0].stockName}(${foreignTop5[0].stockId})
+   外資持股：${foreignTop5[0].foreignHoldingRatio}%
+
+2. ${foreignTop5[1].stockName}(${foreignTop5[1].stockId})
+   外資持股：${foreignTop5[1].foreignHoldingRatio}%
+`;
 
     await axios.post(
         "https://api.line.me/v2/bot/message/push",
@@ -28,7 +49,7 @@ export default async function pushMsg_830(req, res) {
             messages: [
                 {
                     type: "text",
-                    text
+                    message
                 }
             ]
         },
