@@ -19,27 +19,29 @@ export default async function pushMsg_830(req, res) {
 
     const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"
 
+    const volumeTop20 = finalData.top20Volume
+    const top20ForeignHolding = finalData.top20ForeignHolding
     const message = `
 📊 ${finalData.date} 市場排行
 
 🔥 成交量 TOP 5
 
-1. ${volumeTop5[0].stockName}(${volumeTop5[0].stockId})
-   成交量：${Number(volumeTop5[0].tradingVolume).toLocaleString()}
-   收盤：${volumeTop5[0].closePrice} ${volumeTop5[0].changeDirection}
+1. ${volumeTop20[0].stockName}(${volumeTop20[0].stockId})
+   成交量：${Number(volumeTop20[0].tradingVolume).toLocaleString()}
+   收盤：${volumeTop20[0].closePrice} ${volumeTop20[0].changeDirection}
 
-2. ${volumeTop5[1].stockName}(${volumeTop5[1].stockId})
-   成交量：${Number(volumeTop5[1].tradingVolume).toLocaleString()}
-   收盤：${volumeTop5[1].closePrice} ${volumeTop5[1].changeDirection}
+2. ${volumeTop20[1].stockName}(${volumeTop20[1].stockId})
+   成交量：${Number(volumeTop20[1].tradingVolume).toLocaleString()}
+   收盤：${volumeTop20[1].closePrice} ${volumeTop20[1].changeDirection}
 
 
 🌍 外資持股 TOP 5
 
-1. ${foreignTop5[0].stockName}(${foreignTop5[0].stockId})
-   外資持股：${foreignTop5[0].foreignHoldingRatio}%
+1. ${top20ForeignHolding[0].stockName}(${top20ForeignHolding[0].stockId})
+   外資持股：${top20ForeignHolding[0].foreignHoldingRatio}%
 
-2. ${foreignTop5[1].stockName}(${foreignTop5[1].stockId})
-   外資持股：${foreignTop5[1].foreignHoldingRatio}%
+2. ${top20ForeignHolding[1].stockName}(${top20ForeignHolding[1].stockId})
+   外資持股：${top20ForeignHolding[1].foreignHoldingRatio}%
 `;
 
     await axios.post(
