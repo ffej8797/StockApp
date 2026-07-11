@@ -35,25 +35,25 @@ export default async function lineWebhook(req, res) {
 
                 console.log("user message:", userMessage);
 
-                await axios.post(
-                    "https://api.line.me/v2/bot/message/reply",
-                    {
-                        replyToken: replyToken,
-                        messages: [
-                            {
-                                type: "text",
-                                text: `你輸入的是：${userMessage}`
-                            }
-                        ]
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization":
-                                `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
-                        }
-                    }
-                );
+                // await axios.post(
+                //     "https://api.line.me/v2/bot/message/reply",
+                //     {
+                //         replyToken: replyToken,
+                //         messages: [
+                //             {
+                //                 type: "text",
+                //                 text: `你輸入的是：${userMessage}`
+                //             }
+                //         ]
+                //     },
+                //     {
+                //         headers: {
+                //             "Content-Type": "application/json",
+                //             "Authorization":
+                //                 `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
+                //         }
+                //     }
+                // );
 
                 res.status(200).send("ok");
 
