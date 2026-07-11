@@ -3,6 +3,7 @@ import { formatTimestampDate } from "../utils/index.js";
 import stockData from "../fetchStockData/index.js";
 import { stockData_DB } from "../fetchStockData/index.js";
 import { DIVIDER_LINE } from "../utils/line.js";
+import { User } from "../../database/index.js";
 
 import { volumeTop20Message, top20ForeignHoldingMessage } from "../message/index.js";
 
@@ -22,7 +23,7 @@ export default async function pushMsg_830(req, res) {
     const finalData = await stockData_DB("20260708")
     console.log("finalData", finalData)
 
-    const userId = "U0c489bc1ad94ec6aca55d5dc529dae66"
+    const UserResult = await User.find({}).toArray()
 
     const volumeTop20 = finalData.top20Volume
     const top20ForeignHolding = finalData.top20ForeignHolding
@@ -44,29 +45,32 @@ ${DIVIDER_LINE}
 ${foreignHoldingMessage}
 `;
 
-    const data = {
-        to: userId,
-        messages: [
-            {
-                type: "text",
-                text: message
-            }
-        ]
+    for (const item of UserResult) {
+        const data = {
+            to: item.userId,
+            messages: [
+                {
+                    type: "text",
+                    text: message
+                }
+            ]
+        }
+        try {
+            await axios.post(
+                "https://api.line.me/v2/bot/message/push",
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+        } catch (error) {
+            console.log("LINE ERROR:", error.response?.data);
+            console.log("STATUS:", error.response?.status);
+        }
     }
-    try {
-        await axios.post(
-            "https://api.line.me/v2/bot/message/push",
-            data,
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-    } catch (error) {
-        console.log("LINE ERROR:", error.response?.data);
-        console.log("STATUS:", error.response?.status);
-    }
+
     res.status(200).end('Hello Cron!');
 }
