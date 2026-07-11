@@ -21,8 +21,8 @@ export default async function pushMsg_830(req, res) {
 
     const volumeTop20 = finalData.top20Volume
     const top20ForeignHolding = finalData.top20ForeignHolding
-    const message = `
-📊 ${finalData.date} 市場排行
+    const message = 
+    `📊 ${finalData.date} 市場排行
 
 🔥 成交量 TOP 5
 
@@ -44,6 +44,15 @@ export default async function pushMsg_830(req, res) {
    外資持股：${top20ForeignHolding[1].foreignHoldingRatio}%
 `;
 
+    const data = {
+        to: userId,
+        messages: [
+            {
+                type: "text",
+                text: message
+            }
+        ]
+    }
     try {
         await axios.post(
             "https://api.line.me/v2/bot/message/push",
