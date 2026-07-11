@@ -44,24 +44,20 @@ export default async function pushMsg_830(req, res) {
    外資持股：${top20ForeignHolding[1].foreignHoldingRatio}%
 `;
 
-    await axios.post(
-        "https://api.line.me/v2/bot/message/push",
-        {
-            to: userId,
-            messages: [
-                {
-                    type: "text",
-                    message
-                }
-            ]
-        },
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization":
-                    `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
+    try {
+        await axios.post(
+            "https://api.line.me/v2/bot/message/push",
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`,
+                    "Content-Type": "application/json",
+                },
             }
-        }
-    );
+        );
+    } catch (error) {
+        console.log("LINE ERROR:", error.response?.data);
+        console.log("STATUS:", error.response?.status);
+    }
     res.status(200).end('Hello Cron!');
 }
