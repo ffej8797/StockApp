@@ -13,3 +13,24 @@ export function formatTimestemp(timestamp) {
 
     return formatDate
 }
+
+/** 日期格式: 20260711 */
+export function formatTimestampDate(timestamp) {
+    const date = new Date(timestamp);
+
+    const taipeiDate = new Date(
+        date.toLocaleString("en-US", {
+            timeZone: "Asia/Taipei",
+        })
+    );
+
+    const year = taipeiDate.getFullYear();
+    const month = String(taipeiDate.getMonth() + 1).padStart(2, "0");
+    const day = String(taipeiDate.getDate()).padStart(2, "0");
+
+    return `${year}${month}${day}`;
+}
+
+export function priceDeleteComma(price) {
+    return price.replaceAll(",", "")
+}

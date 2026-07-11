@@ -1,0 +1,28 @@
+{
+    "top20Volume": {
+        "排名": "rank",
+        "證券代號": "stockId",
+        "證券名稱": "stockName",
+        "成交股數": "tradingVolume",
+        "成交筆數": "tradingCount",
+        "開盤價": "openPrice",
+        "最高價": "highPrice",
+        "最低價": "lowPrice",
+        "收盤價": "closePrice",
+        "漲跌(+/-)": "changeDirection",
+        "漲跌價差": "priceChange",
+        "最後揭示買價": "lastBidPrice",
+        "最後揭示賣價": "lastAskPrice"
+    },
+    "Top20ForeignHolding": {
+        "排行": "rank",
+        "證券代號": "stockId",
+        "證券名稱": "stockName",
+        "發行股數": "issuedShares",
+        "外資及陸資尚可投資股數": "foreignAvailableShares",
+        "全體外資及陸資持有股數": "foreignHeldShares",
+        "全體外資及陸資尚可投資比率": "foreignAvailableRatio",
+        "全體外資及陸資持股比率": "foreignHoldingRatio",
+        "法令投資上限比率": "legalInvestmentLimitRatio"
+    }
+}
