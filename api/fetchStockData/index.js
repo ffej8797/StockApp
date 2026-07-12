@@ -16,6 +16,9 @@ export async function stockData_Top20Volume(date) {
             }
         }
     );
+    if (Number(result.total) === 0) {
+        return []
+    }
 
     const englishFields = result.data.fields.map(field => FIELDS_MAP['top20Volume'][field]);
     var Top20VolumeFormatData = []
@@ -50,6 +53,9 @@ export async function stockData_Top20ForeignHolding(date) {
             }
         }
     );
+    if (Number(result.total) === 0) {
+        return []
+    }
     const englishFields = result.data.fields.map(field => FIELDS_MAP['top20ForeignHolding'][field]);
     var Top20ForeignHoldingFormatData = []
 

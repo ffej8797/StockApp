@@ -18,7 +18,12 @@ export default async function stockDataWrite(req, res) {
     /** 抓股票資料 */
     const DATE = formatTimestampDate(Date.now())
     const finalData = await stockData(DATE)
+    if (
+        finalData.top20ForeignHolding.length > 0 ||
+        finalData.top20Volume.length > 0
+    ) {
+        await StockData.insertOne(finalData)
+    }
 
-    await StockData.insertOne(finalData)
     res.status(200).end('Hello Cron!');
 }
