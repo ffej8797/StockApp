@@ -8,14 +8,6 @@ import { User } from "../../database/index.js";
 import { volumeTop20Message, top20ForeignHoldingMessage } from "../message/index.js";
 
 export default async function pushMsg_830(req, res) {
-    const auth = req.headers.authorization;
-    if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
-        return res.status(401).json({
-            success: false,
-            message: "Unauthorized",
-        });
-    }
-
     /** 抓股票資料 */
     const DATE = formatTimestampDate(Date.now() - 86400000) // 日期之後要改為「前一天」
     const finalData = await stockData_DB(DATE)

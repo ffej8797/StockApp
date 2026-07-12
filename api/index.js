@@ -1,6 +1,9 @@
 import express from 'express';
 import lineWebhook from './app/lineWebhook.js';
 
+/** Middleware */
+import { cronAuth } from './middleware/cronAuth.js';
+
 /** 排程 */
 import clock from './cron/clock.js';
 import pushMsg_830 from './cron/pushMsg_830.js';
@@ -23,9 +26,9 @@ app.get('/', (req, res) => {
 app.post('/lineWebhook', async (req, res) => { await lineWebhook(req, res) });
 
 /** 排程 */
-app.get('/clock', async (req, res) => { await clock(req, res) }); // for test
-app.get('/pushMsg_830', async (req, res) => { await pushMsg_830(req, res) });
-app.get('/stockDataWrite', async (req, res) => { await stockDataWrite(req, res) });
+app.get('/clock', cronAuth, async (req, res) => { await clock(req, res) }); // for test
+app.get('/pushMsg_830', cronAuth, async (req, res) => { await pushMsg_830(req, res) });
+app.get('/stockDataWrite', cronAuth, async (req, res) => { await stockDataWrite(req, res) });
 
 app.get('/test', (req, res) => {
   const env = process.env.TEST;

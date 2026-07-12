@@ -7,14 +7,6 @@ import { StockData } from "../../database/index.js"
 
 /** 每天晚上六點執行 */
 export default async function stockDataWrite(req, res) {
-    const auth = req.headers.authorization;
-    if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
-        return res.status(401).json({
-            success: false,
-            message: "Unauthorized",
-        });
-    }
-
     /** 抓股票資料 */
     const DATE = formatTimestampDate(Date.now())
     const finalData = await stockData(DATE)
