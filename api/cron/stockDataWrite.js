@@ -5,6 +5,7 @@ import stockData from "../fetchStockData/index.js";
 
 import { StockData } from "../../database/index.js"
 
+/** 每天晚上六點執行 */
 export default async function stockDataWrite(req, res) {
     const auth = req.headers.authorization;
     if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -15,8 +16,8 @@ export default async function stockDataWrite(req, res) {
     }
 
     /** 抓股票資料 */
-    // const DATE = formatTimestampDate(Date.now())
-    const finalData = await stockData("20260708")
+    const DATE = formatTimestampDate(Date.now())
+    const finalData = await stockData(DATE)
 
     await StockData.insertOne(finalData)
     res.status(200).end('Hello Cron!');

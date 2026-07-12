@@ -17,10 +17,10 @@ export default async function pushMsg_830(req, res) {
     }
 
     /** 抓股票資料 */
-    // const DATE = formatTimestampDate(Date.now()) // 日期之後要改為「前一天」
-    // const finalData = await stockData_DB(DATE)
+    const DATE = formatTimestampDate(Date.now() - 86400000) // 日期之後要改為「前一天」
+    const finalData = await stockData_DB(DATE)
 
-    const finalData = await stockData_DB("20260708")
+    // const finalData = await stockData_DB("20260708")
     console.log("finalData", finalData)
 
     const UserResult = await User.find({}).toArray()
