@@ -9,7 +9,12 @@ import { volumeTop20Message, top20ForeignHoldingMessage } from "../message/index
 
 export default async function pushMsg_830(req, res) {
     /** 抓股票資料 */
-    const DATE = formatTimestampDate(Date.now() - 86400000) // 日期之後要改為「前一天」
+    const now = new Date();
+    const day = now.getDay();
+
+    const offsetDays = day === 1 ? 3 : 1;
+
+    const DATE = formatTimestampDate(now.getTime() - offsetDays * 86400000);
     const finalData = await stockData_DB(DATE)
 
     // const finalData = await stockData_DB("20260708")
