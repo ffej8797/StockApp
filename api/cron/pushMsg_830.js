@@ -9,14 +9,7 @@ import { volumeTop20Message, top20ForeignHoldingMessage } from "../message/index
 
 export default async function pushMsg_830(req, res) {
     /** 抓股票資料 */
-    const now = new Date();
-    const day = now.getDay();
-
-    const offsetDays = day === 1 ? 3 : 1;
-
-    const DATE = formatTimestampDate(now.getTime() - offsetDays * 86400000);
-    const finalData = await stockData_DB(DATE)
-
+    const finalData = await getLastBusinessDate();
     // const finalData = await stockData_DB("20260708")
     console.log("finalData", finalData)
 
@@ -70,4 +63,19 @@ ${foreignHoldingMessage}
     }
 
     res.status(200).end('Hello Cron!');
+}
+
+async function getLastBusinessDate() {
+    let date = new Date();
+    date.setDate(date.getDate() - 1);
+
+    while (true) {
+        const DATE = formatTimestampDate(date.getTime());
+        const data = await stockData_DB(DATE);
+        if (data) {
+            return data;
+        }
+        date.setDate(date.getDate() - 1);
+    }
+
 }
