@@ -78,13 +78,73 @@ export async function stockData_Top20ForeignHolding(date) {
     return Top20ForeignHoldingFormatData
 }
 
+export async function stockData_NetPosition(date) {
+    const url = `${STOCK_URL}fund/TWT38U?date=${date}&response=json&_=1783682387831` // 成交量前二十名證券
+    const result = await axios.get(
+        url,
+        {},
+        {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+    );
+    if (Number(result.total) === 0) {
+        return []
+    }
+
+    const englishFields = Object.values(FIELDS_MAP['netPosition']);
+    var NetPositionFormatData = []
+
+    const data = result.data
+    data.fields = data.fields.slice(1);
+
+    data.data = data.data.map(row => row.slice(1));
+
+    for (const stockData_arr of data.data) {
+        var tempNetPosition = {}
+        for (const key in stockData_arr) { // 數據
+            if (
+                englishFields[key] === "foreignExDealerBuyShares" ||
+                englishFields[key] === "foreignExDealerSellShares" ||
+                englishFields[key] === "foreignExDealerNetShares" ||
+                englishFields[key] === "foreignDealerBuyShares" ||
+                englishFields[key] === "foreignDealerSellShares" ||
+                englishFields[key] === "foreignDealerNetShares" ||
+                englishFields[key] === "foreignTotalBuyShares" ||
+                englishFields[key] === "foreignTotalSellShares" ||
+                englishFields[key] === "foreignTotalNetShares"
+            ) {
+                tempNetPosition[englishFields[key]] = priceDeleteComma(stockData_arr[key])
+                continue
+            }
+
+            if (
+                englishFields[key] === "stockId" ||
+                englishFields[key] === "stockName"
+            ) {
+                tempNetPosition[englishFields[key]] = stockData_arr[key].replaceAll(" ", "")
+                continue;
+            }
+
+            tempNetPosition[englishFields[key]] = stockData_arr[key]
+        }
+
+        NetPositionFormatData.push(tempNetPosition)
+    }
+
+    return NetPositionFormatData
+}
+
 export default async function stockData(date) {
     const Top20VolumeFormatData = await stockData_Top20Volume(date)
     const Top20ForeignHolding = await stockData_Top20ForeignHolding(date)
+    const StockDataNetPosition = await stockData_NetPosition(date);
     const finalData = {
         date: date,
         top20Volume: Top20VolumeFormatData,
-        top20ForeignHolding: Top20ForeignHolding
+        top20ForeignHolding: Top20ForeignHolding,
+        stockDataNetPosition: StockDataNetPosition
     }
     return finalData
 }

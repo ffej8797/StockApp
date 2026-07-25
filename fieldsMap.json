@@ -24,5 +24,18 @@
         "全體外資及陸資尚可投資比率": "foreignAvailableRatio",
         "全體外資及陸資持股比率": "foreignHoldingRatio",
         "法令投資上限比率": "legalInvestmentLimitRatio"
+    },
+    "netPosition": {
+        "證券代號": "stockId",
+        "證券名稱": "stockName",
+        "外資及陸資(不含外資自營商)買進股數": "foreignExDealerBuyShares",
+        "外資及陸資(不含外資自營商)賣出股數": "foreignExDealerSellShares",
+        "外資及陸資(不含外資自營商)買賣超股數": "foreignExDealerNetShares",
+        "外資自營商買進股數": "foreignDealerBuyShares",
+        "外資自營商賣出股數": "foreignDealerSellShares",
+        "外資自營商買賣超股數": "foreignDealerNetShares",
+        "外資及陸資買進股數": "foreignTotalBuyShares",
+        "外資及陸資賣出股數": "foreignTotalSellShares",
+        "外資及陸資買賣超股數": "foreignTotalNetShares"
     }
 }
