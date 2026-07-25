@@ -6,7 +6,7 @@ import { StockData } from "../../database/index.js";
 const STOCK_URL = process.env.STOCK_URL;
 
 export async function stockData_Top20Volume(date) {
-    const url = `${STOCK_URL}afterTrading/MI_INDEX20?date=${date}&response=json&_=1783663383065` // 成交量前二十名證券
+    const url = `${STOCK_URL}afterTrading/MI_INDEX20?date=${date}&response=json&_=${Date.now()}` // 成交量前二十名證券
     const result = await axios.get(
         url,
         {},
@@ -43,7 +43,7 @@ export async function stockData_Top20Volume(date) {
 }
 
 export async function stockData_Top20ForeignHolding(date) {
-    const url = `${STOCK_URL}fund/MI_QFIIS_sort_20?date=${date}&response=json&_=1783682217453` // 成交量前二十名證券
+    const url = `${STOCK_URL}fund/MI_QFIIS_sort_20?date=${date}&response=json&_=${Date.now()}` // 成交量前二十名證券
     const result = await axios.get(
         url,
         {},
@@ -79,7 +79,7 @@ export async function stockData_Top20ForeignHolding(date) {
 }
 
 export async function stockData_NetPosition(date) {
-    const url = `${STOCK_URL}fund/TWT38U?date=${date}&response=json&_=1783682387831` // 成交量前二十名證券
+    const url = `${STOCK_URL}fund/TWT38U?date=${date}&response=json&_=${Date.now()}` // 成交量前二十名證券
     const result = await axios.get(
         url,
         {},
@@ -134,6 +134,53 @@ export async function stockData_NetPosition(date) {
     }
 
     return NetPositionFormatData
+}
+
+export async function stockData_ThreeMajorInstitutionsNetReport(date) { // 三大法人買賣超日報
+    const url = `${STOCK_URL}fund/T86?date=${date}&selectType=ALL&response=json&_=${Date.now()}`
+    const result = await axios.get(
+        url,
+        {},
+        {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+    );
+    if (Number(result.total) === 0) {
+        return []
+    }
+
+    const englishFields = Object.values(FIELDS_MAP['threeMajorInstitutionsNetReport']);
+    var ThreeMajorInstitutionsNetReportFormatData = []
+
+    const data = result.data
+
+    for (const stockData_arr of data.data) {
+        var tempResult = {}
+        const priceDeleteCommaKeys = ["2", "3", "4", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"]
+        for (const key in stockData_arr) { // 數據
+            if (
+                priceDeleteCommaKeys.includes(key)
+            ) {
+                tempResult[englishFields[key]] = priceDeleteComma(stockData_arr[key])
+                continue
+            }
+
+            if (
+                englishFields[key] === "stockName"
+            ) {
+                tempResult[englishFields[key]] = stockData_arr[key].replaceAll(" ", "")
+                continue;
+            }
+
+            tempResult[englishFields[key]] = stockData_arr[key]
+        }
+
+        ThreeMajorInstitutionsNetReportFormatData.push(tempResult)
+    }
+
+    return ThreeMajorInstitutionsNetReportFormatData
 }
 
 export default async function stockData(date) {

@@ -37,5 +37,26 @@
         "外資及陸資買進股數": "foreignTotalBuyShares",
         "外資及陸資賣出股數": "foreignTotalSellShares",
         "外資及陸資買賣超股數": "foreignTotalNetShares"
+    },
+    "threeMajorInstitutionsNetReport": {
+        "證券代號": "stockId",
+        "證券名稱": "stockName",
+        "外陸資買進股數(不含外資自營商)": "foreignExDealerBuyShares",
+        "外陸資賣出股數(不含外資自營商)": "foreignExDealerSellShares",
+        "外陸資買賣超股數(不含外資自營商)": "foreignExDealerNetShares",
+        "外資自營商買進股數": "foreignDealerBuyShares",
+        "外資自營商賣出股數": "foreignDealerSellShares",
+        "外資自營商買賣超股數": "foreignDealerNetShares",
+        "投信買進股數": "investmentTrustBuyShares",
+        "投信賣出股數": "investmentTrustSellShares",
+        "投信買賣超股數": "investmentTrustNetShares",
+        "自營商買賣超股數": "dealerNetShares",
+        "自營商買進股數(自行買賣)": "dealerSelfTradeBuyShares",
+        "自營商賣出股數(自行買賣)": "dealerSelfTradeSellShares",
+        "自營商買賣超股數(自行買賣)": "dealerSelfTradeNetShares",
+        "自營商買進股數(避險)": "dealerHedgingBuyShares",
+        "自營商賣出股數(避險)": "dealerHedgingSellShares",
+        "自營商買賣超股數(避險)": "dealerHedgingNetShares",
+        "三大法人買賣超股數": "threeMajorInstitutionsNetShares"
     }
 }
