@@ -1,5 +1,6 @@
 import axios from "axios";
 import { User } from "../../database/index.js";
+import { askGemini } from "../ai/gemini.js";
 
 export default async function lineWebhook(req, res) {
     const event = req.body.events[0]
@@ -33,27 +34,26 @@ export default async function lineWebhook(req, res) {
                 const replyToken = event.replyToken;
                 const userMessage = event.message.text;
 
-                console.log("user message:", userMessage);
-
-                // await axios.post(
-                //     "https://api.line.me/v2/bot/message/reply",
-                //     {
-                //         replyToken: replyToken,
-                //         messages: [
-                //             {
-                //                 type: "text",
-                //                 text: `你輸入的是：${userMessage}`
-                //             }
-                //         ]
-                //     },
-                //     {
-                //         headers: {
-                //             "Content-Type": "application/json",
-                //             "Authorization":
-                //                 `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
-                //         }
-                //     }
-                // );
+                const GeminiAnswar = await askGemini(userMessage)
+                await axios.post(
+                    "https://api.line.me/v2/bot/message/reply",
+                    {
+                        replyToken: replyToken,
+                        messages: [
+                            {
+                                type: "text",
+                                text: GeminiAnswar
+                            }
+                        ]
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization":
+                                `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
+                        }
+                    }
+                );
 
                 res.status(200).send("ok");
 
