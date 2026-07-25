@@ -187,11 +187,13 @@ export default async function stockData(date) {
     const Top20VolumeFormatData = await stockData_Top20Volume(date)
     const Top20ForeignHolding = await stockData_Top20ForeignHolding(date)
     const StockDataNetPosition = await stockData_NetPosition(date);
+    const ThreeMajorInstitutionsNetReport = await stockData_ThreeMajorInstitutionsNetReport(date)
     const finalData = {
         date: date,
         top20Volume: Top20VolumeFormatData,
         top20ForeignHolding: Top20ForeignHolding,
-        stockDataNetPosition: StockDataNetPosition
+        stockDataNetPosition: StockDataNetPosition,
+        threeMajorInstitutionsNetReport: ThreeMajorInstitutionsNetReport
     }
     return finalData
 }
