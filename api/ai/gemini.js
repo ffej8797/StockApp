@@ -4,8 +4,8 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function askGemini(question) {
     const interaction = await ai.interactions.create({
-        // model: "gemini-3.5-flash",
-        model: "gemini-3.1-flash-lite",
+        model: "gemini-3.5-flash",
+        // model: "gemini-3.1-flash-lite",
         input: question,
         system_instruction: SYSTEM_INSTRUCTION
     });
